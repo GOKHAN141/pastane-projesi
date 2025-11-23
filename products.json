@@ -1,1 +1,26 @@
-[]
+[
+  {
+    "name": "Çikolatalı Kek",
+    "price": "45₺",
+    "image": "images/cikolatali-kek.jpg",
+    "description": "Taptaze, yoğun çikolatalı kek."
+  },
+  {
+    "name": "Sade Poğaça",
+    "price": "10₺",
+    "image": "images/sade-pogaca.jpg",
+    "description": "Sıcacık, günlük poğaça."
+  },
+  {
+    "name": "Çilekli Tart",
+    "price": "25₺",
+    "image": "images/cilekli-tart.jpg",
+    "description": "Doğal çileklerle hazırlanmış."
+  },
+  {
+    "name": "poğaça",
+    "description": "Peynirli",
+    "price": "15",
+    "image": "poğaça"
+  }
+]

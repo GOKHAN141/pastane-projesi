@@ -1,13 +1,108 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sayfa</title>
-    <link rel="stylesheet" href="css/style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>İletişim | Beyoğlu Patisseria</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .contact-hero {
+      background-color: var(--soft);
+      text-align: center;
+      padding: 100px 20px;
+    }
+    .contact-hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 3rem;
+      color: var(--primary);
+      margin-bottom: 20px;
+    }
+    .contact-hero p {
+      font-size: 1.2rem;
+      color: var(--dark);
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    .contact-section {
+      padding: 50px 20px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 40px;
+    }
+    .contact-card {
+      background-color: var(--soft);
+      border-radius: 10px;
+      padding: 30px;
+      width: 280px;
+      text-align: center;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .contact-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 12px 20px rgba(0,0,0,0.2);
+    }
+    .contact-card h3 {
+      color: var(--primary);
+      margin-bottom: 10px;
+    }
+    .contact-card p, .contact-card a {
+      color: var(--dark);
+      font-size: 0.95rem;
+      text-decoration: none;
+      display: block;
+      margin-bottom: 8px;
+    }
+    .contact-card a:hover {
+      color: var(--accent);
+    }
+  </style>
 </head>
-
 <body>
-    <h1>Sayfa Başlığı</h1>
+
+  <!-- Navbar -->
+  <nav>
+      <div class="logo">Beyoğlu Patisseria</div>
+      <div class="menu">
+          <a href="index.html">Ana Sayfa</a>
+          <a href="menu.html">Menü</a>
+          <a href="about.html">Hakkımızda</a>
+          <a href="gallery.html">Galeri</a>
+          <a href="contact.html">İletişim</a>
+      </div>
+  </nav>
+
+  <!-- Hero -->
+  <header class="contact-hero">
+    <h1>İletişim</h1>
+    <p>Bize aşağıdaki bilgiler üzerinden ulaşabilirsiniz. Her zaman yanınızdayız!</p>
+  </header>
+
+  <!-- İletişim Bilgileri -->
+  <section class="contact-section">
+    <div class="contact-card">
+      <h3>Adres</h3>
+      <p>İstiklal Cad. No:123, Beyoğlu, İstanbul</p>
+    </div>
+    <div class="contact-card">
+      <h3>Telefon</h3>
+      <a href="tel:+902123456789">+90 212 345 67 89</a>
+    </div>
+    <div class="contact-card">
+      <h3>E-posta</h3>
+      <a href="mailto:info@beyoglu-patisseria.com">info@beyoglu-patisseria.com</a>
+    </div>
+    <div class="contact-card">
+      <h3>Sosyal Medya</h3>
+      <a href="https://www.instagram.com/beyoglu.patisseria" target="_blank">Instagram</a>
+      <a href="https://www.facebook.com/beyoglu.patisseria" target="_blank">Facebook</a>
+    </div>
+  </section>
+
+  <footer>
+    <p>© 2025 Beyoğlu Patisseria. Tüm Hakları Saklıdır.</p>
+  </footer>
+
 </body>
 </html>

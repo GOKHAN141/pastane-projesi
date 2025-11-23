@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel | Beyoğlu</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body { font-family: Arial, sans-serif; background: #f9f9f9; margin: 0; padding: 20px; }
+        h1, h2 { color: #75856a; }
+        section { background: white; padding: 20px; border-radius: 8px; margin-bottom: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        input, button { padding: 10px; margin: 5px 0; width: 100%; border-radius: 4px; border: 1px solid #ccc; }
+        button { background: #75856a; color: white; border: none; cursor: pointer; }
+        button:hover { background: #5f6a56; }
+        .product-item { display: flex; align-items: center; margin-bottom: 10px; }
+        .product-item img { margin-right: 10px; border-radius: 4px; }
+        .product-item h3, .product-item p, .product-item span { margin: 0 5px 0 0; }
+    </style>
+</head>
+<body>
+    <h1>Admin Panel</h1>
+    <button onclick="logout()" style="
+        position: absolute; 
+        top: 20px; 
+        right: 20px; 
+        background:#b44040; 
+        color:white; 
+        padding:10px 15px; 
+        border:none; 
+        border-radius:5px; 
+        cursor:pointer;">
+        Çıkış Yap
+    </button>
+
+    <!-- Mevcut Ürünler -->
+    <section class="product-list">
+        <h2>Mevcut Ürünler</h2>
+        <div id="productsContainer"></div>
+    </section>
+
+    <!-- Yeni Ürün Ekle -->
+    <section class="add-product">
+        <h2>Yeni Ürün Ekle</h2>
+        <input type="text" id="name" placeholder="Ürün Adı">
+        <input type="text" id="description" placeholder="Açıklama">
+        <input type="text" id="price" placeholder="Fiyat">
+        <input type="text" id="image" placeholder="Görsel Dosya Yolu (örn: images/kek.jpg)">
+        <button onclick="addProduct()">Ekle</button>
+    </section>
+
+    <!-- Ürün Sil -->
+    <section class="delete-product">
+        <h2>Ürün Sil</h2>
+        <input type="text" id="deleteName" placeholder="Silinecek Ürün Adı">
+        <button onclick="deleteProduct()">Sil</button>
+    </section>
+
+    <script>
+        // Eğer sekmede giriş yapılmadıysa login sayfasına at
+        if (sessionStorage.getItem("loggedIn") !== "true") {
+            window.location.href = "login.html";
+        }
+    </script>
+
+
+    <script>
+        // Mevcut ürünleri yükle ve görüntüle
+        function loadProducts() {
+            fetch('/products.json')
+                .then(res => res.json())
+                .then(data => {
+                    const container = document.getElementById('productsContainer');
+                    container.innerHTML = '';
+                    data.forEach(item => {
+                        const div = document.createElement('div');
+                        div.className = 'product-item';
+                        div.innerHTML = `
+                            <img src="${item.image}" alt="${item.name}" width="80">
+                            <div>
+                                <h3>${item.name}</h3>
+                                <p>${item.description}</p>
+                                <span>${item.price}</span>
+                            </div>
+                        `;
+                        container.appendChild(div);
+                    });
+                })
+                .catch(err => console.error(err));
+        }
+
+        loadProducts();
+
+        // Ürün ekleme
+        function addProduct() {
+            const name = document.getElementById('name').value.trim();
+            const description = document.getElementById('description').value.trim();
+            const price = document.getElementById('price').value.trim();
+            const image = document.getElementById('image').value.trim();
+
+            if(!name || !description || !price || !image){
+                alert('Lütfen tüm alanları doldurun!');
+                return;
+            }
+
+            fetch('/add-product', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ name, description, price, image })
+            })
+            .then(res => res.json())
+            .then(data => {
+                if(data.success) {
+                    alert('Ürün eklendi!');
+                    loadProducts(); // Listeyi güncelle
+                    document.getElementById('name').value = '';
+                    document.getElementById('description').value = '';
+                    document.getElementById('price').value = '';
+                    document.getElementById('image').value = '';
+                } else {
+                    alert('Hata oluştu!');
+                }
+            });
+        }
+
+        // Ürün silme
+        function deleteProduct() {
+            const name = document.getElementById('deleteName').value.trim();
+            if(!name){
+                alert('Lütfen silinecek ürün adını girin!');
+                return;
+            }
+
+            fetch('/delete-product', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ name })
+            })
+            .then(res => res.json())
+            .then(data => {
+                if(data.success) {
+                    alert('Ürün silindi!');
+                    loadProducts();
+                    document.getElementById('deleteName').value = '';
+                } else {
+                    alert('Hata oluştu!');
+                }
+            });
+        }
+    </script>
+    <script>
+    function logout() {
+        sessionStorage.removeItem("loggedIn"); // sekme oturumu sil
+        window.location.href = "login.html";   // login sayfasına gönder
+    }
+</script>
+
+</body>
+</html>
