@@ -1,26 +1,31 @@
-// Menü ürünlerini products.json'dan çek ve ekrana bas
-function loadMenu() {
-    fetch('/products.json')
-        .then(res => res.json())
-        .then(products => {
-            const container = document.getElementById('menu-container');
-            container.innerHTML = ''; // önce temizle
-            products.forEach(product => {
-                const item = document.createElement('div');
-                item.className = 'menu-item';
-                item.innerHTML = `
-                    <div class="menu-item-inner">
-                        <img src="${product.image}" alt="${product.name}">
-                        <h3>${product.name}</h3>
-                        <p>${product.description}</p>
-                        <span>${product.price} TL</span>
-                    </div>
-                `;
-                container.appendChild(item);
-            });
-        })
-        .catch(err => console.error('Ürünler yüklenirken hata:', err));
+import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm'
+
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL
+const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY
+
+const supabase = createClient(supabaseUrl, supabaseAnonKey)
+
+async function loadMenu() {
+  const { data, error } = await supabase.from('products').select('*')
+  if (error) {
+    console.error(error)
+    return
+  }
+
+  const container = document.getElementById('menu-container')
+  container.innerHTML = ''
+
+  data.forEach(item => {
+    const div = document.createElement('div')
+    div.className = 'menu-item'
+    div.innerHTML = `
+      <img src="${item.image}" alt="${item.name}">
+      <h3>${item.name}</h3>
+      <p>${item.description}</p>
+      <span>${item.price} TL</span>
+    `
+    container.appendChild(div)
+  })
 }
 
-// Sayfa yüklendiğinde menüyü yükle
-window.addEventListener('DOMContentLoaded', loadMenu);
+window.addEventListener('DOMContentLoaded', loadMenu)
